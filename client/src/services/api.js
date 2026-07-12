@@ -2,8 +2,10 @@ import axios from 'axios';
 import { store } from '../redux/store';
 import { setAccessToken, logout } from '../redux/slices/authSlice';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -73,7 +75,7 @@ api.interceptors.response.use(
       }
 
       try {
-        const response = await axios.post('/api/auth/refresh-token', { refreshToken });
+        const response = await axios.post(`${baseURL}/auth/refresh-token`, { refreshToken });
         const { accessToken } = response.data;
 
         // Save new access token

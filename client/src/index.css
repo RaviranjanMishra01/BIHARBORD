@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased font-sans bg-gray-50 dark:bg-gray-950 transition-colors duration-200;
+  }
+
+  /* Global input, select, and textarea styles for dark mode */
+  .dark input:not([type="checkbox"]):not([type="radio"]), 
+  .dark select, 
+  .dark textarea {
+    background-color: #151e2c !important; /* gray-850 container background */
+    color: #ffffff !important; /* white text color */
+    border-color: #334155 !important; /* gray-700 borders */
+  }
+
+  /* Change Autocomplete styles in dark mode */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover, 
+  .dark input:-webkit-autofill:focus,
+  .dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #151e2c inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-800/60 shadow-lg hover:shadow-xl transition-all duration-200;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 dark:bg-gray-800 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+}

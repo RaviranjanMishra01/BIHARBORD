@@ -87,48 +87,80 @@ const sendOTP = async (req, res, next) => {
     if (purpose === 'register') {
       mailSubject = 'Verify Your Email Address - Bihar Board Portal';
       mailHtml = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <span style="font-size: 26px; font-weight: 800; color: #2563eb; letter-spacing: -0.5px;">BSEB Online Portal</span>
+        <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 550px; margin: 40px auto; background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05); border: 1px solid #e2e8f0;">
+          <!-- Header Banner -->
+          <div style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); padding: 32px 24px; text-align: center;">
+            <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BSEB Matric Exam Portal</h1>
+            <p style="margin: 4px 0 0 0; color: #bfdbfe; font-size: 13px; font-weight: 500;">Bihar School Examination Board Prep Hub</p>
           </div>
-          <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9;">
-            <h2 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 12px;">Email Verification</h2>
-            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
+          
+          <!-- Content Body -->
+          <div style="padding: 40px 32px;">
+            <h2 style="margin-top: 0; margin-bottom: 16px; color: #0f172a; font-size: 18px; font-weight: 700;">Email Verification Required</h2>
+            <p style="margin: 0 0 24px 0; color: #475569; font-size: 14px; line-height: 1.6;">
               Thank you for registering on the Bihar Board Matric Exam preparation portal. Use the verification code below to complete your email verification:
             </p>
-            <div style="text-align: center; background: #f0f6ff; border: 1px dashed #bfdbfe; padding: 18px; border-radius: 12px; margin-bottom: 24px;">
-              <span style="font-size: 36px; font-weight: 800; color: #1d4ed8; letter-spacing: 5px;">${otp}</span>
+            
+            <!-- OTP Code Banner -->
+            <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid #e2e8f0;">
+              <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Your Verification Code</span>
+              <span style="font-family: 'Courier New', Courier, monospace; font-size: 38px; font-weight: 800; color: #1e3a8a; letter-spacing: 6px;">${otp}</span>
             </div>
-            <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 0;">
-              This code will expire in 5 minutes. If you did not sign up for an account, you can safely ignore this email.
-            </p>
+            
+            <!-- Expiry Notice -->
+            <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 16px;">
+              <p style="margin: 0; font-size: 13px; color: #b45309; line-height: 1.5;">
+                ⚠️ <strong>Security Note:</strong> This code is valid for <strong>5 minutes</strong>. If you did not sign up for an account, you can safely ignore this email.
+              </p>
+            </div>
           </div>
-          <div style="text-align: center; margin-top: 24px; font-size: 11px; color: #94a3b8;">
-            &copy; 2026 Bihar Board Class 10 Exam Portal. All rights reserved.
+          
+          <!-- Footer -->
+          <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #f1f5f9;">
+            <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.5;">
+              &copy; 2026 Bihar Board Matric Exam Portal. All rights reserved.<br>
+              Patna, Bihar, India.
+            </p>
           </div>
         </div>
       `;
     } else {
       mailSubject = 'Reset Your Password - Bihar Board Portal';
       mailHtml = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <span style="font-size: 26px; font-weight: 800; color: #4f46e5; letter-spacing: -0.5px;">BSEB Online Portal</span>
+        <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 550px; margin: 40px auto; background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05); border: 1px solid #e2e8f0;">
+          <!-- Header Banner -->
+          <div style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%); padding: 32px 24px; text-align: center;">
+            <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BSEB Matric Exam Portal</h1>
+            <p style="margin: 4px 0 0 0; color: #c7d2fe; font-size: 13px; font-weight: 500;">Bihar School Examination Board Prep Hub</p>
           </div>
-          <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9;">
-            <h2 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 12px;">Password Recovery</h2>
-            <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
+          
+          <!-- Content Body -->
+          <div style="padding: 40px 32px;">
+            <h2 style="margin-top: 0; margin-bottom: 16px; color: #0f172a; font-size: 18px; font-weight: 700;">Password Recovery</h2>
+            <p style="margin: 0 0 24px 0; color: #475569; font-size: 14px; line-height: 1.6;">
               We received a request to reset your password. Use the verification OTP below to complete the recovery process:
             </p>
-            <div style="text-align: center; background: #eef2ff; border: 1px dashed #c7d2fe; padding: 18px; border-radius: 12px; margin-bottom: 24px;">
-              <span style="font-size: 36px; font-weight: 800; color: #4338ca; letter-spacing: 5px;">${otp}</span>
+            
+            <!-- OTP Code Banner -->
+            <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid #e2e8f0;">
+              <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Your Recovery Code</span>
+              <span style="font-family: 'Courier New', Courier, monospace; font-size: 38px; font-weight: 800; color: #312e81; letter-spacing: 6px;">${otp}</span>
             </div>
-            <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 0;">
-              This code will expire in 5 minutes. If you did not request a password change, please update your account credentials immediately.
-            </p>
+            
+            <!-- Expiry Notice -->
+            <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 16px;">
+              <p style="margin: 0; font-size: 13px; color: #b45309; line-height: 1.5;">
+                ⚠️ <strong>Security Note:</strong> This code is valid for <strong>5 minutes</strong>. If you did not request a password change, please update your account credentials immediately.
+              </p>
+            </div>
           </div>
-          <div style="text-align: center; margin-top: 24px; font-size: 11px; color: #94a3b8;">
-            &copy; 2026 Bihar Board Class 10 Exam Portal. All rights reserved.
+          
+          <!-- Footer -->
+          <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #f1f5f9;">
+            <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.5;">
+              &copy; 2026 Bihar Board Matric Exam Portal. All rights reserved.<br>
+              Patna, Bihar, India.
+            </p>
           </div>
         </div>
       `;
@@ -221,41 +253,54 @@ const register = async (req, res, next) => {
 
     // Send a beautifully styled Welcome / Success Email
     const welcomeHtml = `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 26px; font-weight: 800; color: #10b981; letter-spacing: -0.5px;">BSEB Online Portal</span>
+      <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 550px; margin: 40px auto; background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05); border: 1px solid #e2e8f0;">
+        <!-- Header Banner -->
+        <div style="background: linear-gradient(135deg, #064e3b 0%, #10b981 100%); padding: 32px 24px; text-align: center;">
+          <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BSEB Matric Exam Portal</h1>
+          <p style="margin: 4px 0 0 0; color: #d1fae5; font-size: 13px; font-weight: 500;">Bihar School Examination Board Prep Hub</p>
         </div>
-        <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-          <h2 style="font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 12px;">🎉 Registration Successful!</h2>
-          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 16px;">
+        
+        <!-- Content Body -->
+        <div style="padding: 40px 32px;">
+          <h2 style="margin-top: 0; margin-bottom: 16px; color: #0f172a; font-size: 20px; font-weight: 700;">🎉 Registration Successful!</h2>
+          <p style="margin: 0 0 16px 0; color: #475569; font-size: 14px; line-height: 1.6;">
             Hello <strong>${fullName}</strong>,
           </p>
-          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
+          <p style="margin: 0 0 24px 0; color: #475569; font-size: 14px; line-height: 1.6;">
             Welcome to the Bihar Board Matric Exam preparation portal. Your account has been registered successfully! You can now log in, take practices, track daily streaks, and review your performance.
           </p>
-          <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-bottom: 24px;">
-            <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 12px;">Registration Details:</h3>
+          
+          <!-- Registration Details Card -->
+          <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin-bottom: 28px; border: 1px solid #e2e8f0;">
+            <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;">Your Profile Details</h3>
             <table style="width: 100%; font-size: 13px; color: #475569; border-collapse: collapse;">
               <tr>
-                <td style="padding: 4px 0; font-weight: 600; width: 120px; color: #64748b;">Email:</td>
-                <td style="padding: 4px 0; font-weight: 600; color: #0f172a;">${normalizedEmail}</td>
+                <td style="padding: 6px 0; font-weight: 600; width: 110px; color: #64748b;">Email:</td>
+                <td style="padding: 6px 0; font-weight: 600; color: #0f172a;">${normalizedEmail}</td>
               </tr>
               <tr>
-                <td style="padding: 4px 0; font-weight: 600; color: #64748b;">School Name:</td>
-                <td style="padding: 4px 0; color: #0f172a;">${schoolName || 'N/A'}</td>
+                <td style="padding: 6px 0; font-weight: 600; color: #64748b;">School Name:</td>
+                <td style="padding: 6px 0; color: #0f172a;">${schoolName || 'N/A'}</td>
               </tr>
               <tr>
-                <td style="padding: 4px 0; font-weight: 600; color: #64748b;">District:</td>
-                <td style="padding: 4px 0; color: #0f172a;">${district || 'N/A'}</td>
+                <td style="padding: 6px 0; font-weight: 600; color: #64748b;">District:</td>
+                <td style="padding: 6px 0; color: #0f172a;">${district || 'N/A'}</td>
               </tr>
             </table>
           </div>
+          
+          <!-- Action Button -->
           <div style="text-align: center;">
-            <a href="http://localhost:5173/login" style="display: inline-block; padding: 12px 24px; background-color: #10b981; color: #ffffff; text-decoration: none; font-weight: 700; border-radius: 8px; font-size: 14px;">Log In to Your Dashboard</a>
+            <a href="https://biharbord.vercel.app/login" style="display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff; text-decoration: none; font-weight: 700; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); transition: all 0.2s;">Log In to Your Dashboard</a>
           </div>
         </div>
-        <div style="text-align: center; margin-top: 24px; font-size: 11px; color: #94a3b8;">
-          &copy; 2026 Bihar Board Class 10 Exam Portal. All rights reserved.
+        
+        <!-- Footer -->
+        <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #f1f5f9;">
+          <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.5;">
+            &copy; 2026 Bihar Board Matric Exam Portal. All rights reserved.<br>
+            Patna, Bihar, India.
+          </p>
         </div>
       </div>
     `;
@@ -512,24 +557,40 @@ const forgotPassword = async (req, res, next) => {
 
     // Design Beautiful Recovery Template
     const resetHtml = `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 26px; font-weight: 800; color: #4f46e5; letter-spacing: -0.5px;">BSEB Online Portal</span>
+      <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 550px; margin: 40px auto; background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05); border: 1px solid #e2e8f0;">
+        <!-- Header Banner -->
+        <div style="background: linear-gradient(135deg, #312e81 0%, #4338ca 100%); padding: 32px 24px; text-align: center;">
+          <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">BSEB Matric Exam Portal</h1>
+          <p style="margin: 4px 0 0 0; color: #c7d2fe; font-size: 13px; font-weight: 500;">Bihar School Examination Board Prep Hub</p>
         </div>
-        <div style="background-color: #ffffff; padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-          <h2 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 12px;">Password Recovery OTP</h2>
-          <p style="font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px;">
+        
+        <!-- Content Body -->
+        <div style="padding: 40px 32px;">
+          <h2 style="margin-top: 0; margin-bottom: 16px; color: #0f172a; font-size: 18px; font-weight: 700;">Password Recovery OTP</h2>
+          <p style="margin: 0 0 24px 0; color: #475569; font-size: 14px; line-height: 1.6;">
             We received a request to reset your password. Use the verification OTP below to complete the recovery process:
           </p>
-          <div style="text-align: center; background: #eef2ff; border: 1px dashed #c7d2fe; padding: 18px; border-radius: 12px; margin-bottom: 24px;">
-            <span style="font-size: 36px; font-weight: 800; color: #4338ca; letter-spacing: 5px;">${otp}</span>
+          
+          <!-- OTP Code Banner -->
+          <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px; border: 1px solid #e2e8f0;">
+            <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Your Reset Code</span>
+            <span style="font-family: 'Courier New', Courier, monospace; font-size: 38px; font-weight: 800; color: #312e81; letter-spacing: 6px;">${otp}</span>
           </div>
-          <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 0;">
-            This code will expire in 55 minutes. If you did not request a password change, please update your account credentials immediately.
-          </p>
+          
+          <!-- Expiry Notice -->
+          <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 16px;">
+            <p style="margin: 0; font-size: 13px; color: #b45309; line-height: 1.5;">
+              ⚠️ <strong>Security Note:</strong> This code is valid for <strong>5 minutes</strong>. If you did not request a password change, please update your account credentials immediately.
+            </p>
+          </div>
         </div>
-        <div style="text-align: center; margin-top: 24px; font-size: 11px; color: #94a3b8;">
-          &copy; 2026 Bihar Board Class 10 Exam Portal. All rights reserved.
+        
+        <!-- Footer -->
+        <div style="background-color: #f8fafc; padding: 24px; text-align: center; border-top: 1px solid #f1f5f9;">
+          <p style="margin: 0; font-size: 11px; color: #94a3b8; line-height: 1.5;">
+            &copy; 2026 Bihar Board Matric Exam Portal. All rights reserved.<br>
+            Patna, Bihar, India.
+          </p>
         </div>
       </div>
     `;

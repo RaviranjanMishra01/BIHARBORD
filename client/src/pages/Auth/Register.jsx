@@ -194,8 +194,9 @@ const Register = () => {
           {/* Registration Verification OTP */}
           {otpSent && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               className="md:col-span-2"
             >
               <label className="block text-[11px] font-bold text-gray-400 dark:text-gray-500 mb-1">6-Digit Email OTP *</label>

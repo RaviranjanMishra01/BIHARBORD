@@ -656,6 +656,71 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+// Hidden Admin Setup Register
+const registerAdmin = async (req, res, next) => {
+  try {
+    const { fullName, email, password, secretToken } = req.body;
+    
+    // Check secret token first (default is bseb_super_secret_portal_key_2026)
+    const setupSecret = process.env.ADMIN_REGISTRATION_SECRET || 'bseb_super_secret_portal_key_2026';
+    if (secretToken !== setupSecret) {
+      return res.status(404).json({ success: false, message: 'Resource not found' });
+    }
+
+    // Check if a custom admin already exists (excluding default seeded admin)
+    const customAdminCount = await User.countDocuments({ 
+      role: 'admin', 
+      email: { $ne: 'admin@biharboard.org' } 
+    });
+    if (customAdminCount > 0) {
+      return res.status(404).json({ success: false, message: 'Resource not found' });
+    }
+
+    if (!fullName || !email || !password) {
+      return res.status(400).json({ success: false, message: 'Please provide all details' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if email already registered
+    const userExists = await User.findOne({ email: normalizedEmail });
+    if (userExists) {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
+
+    // Self-destruct default seeded admin if it exists
+    await User.deleteOne({ email: 'admin@biharboard.org' });
+
+    const admin = await User.create({
+      fullName,
+      email: normalizedEmail,
+      password,
+      role: 'admin'
+    });
+
+    const accessToken = generateAccessToken(admin._id);
+    const refreshToken = generateRefreshToken(admin._id);
+
+    admin.refreshToken = refreshToken;
+    await admin.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Admin registered successfully',
+      accessToken,
+      refreshToken,
+      user: {
+        _id: admin._id,
+        fullName: admin.fullName,
+        email: admin.email,
+        role: admin.role
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   sendOTP,
   register,
@@ -665,5 +730,6 @@ module.exports = {
   logout,
   changePassword,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  registerAdmin
 };

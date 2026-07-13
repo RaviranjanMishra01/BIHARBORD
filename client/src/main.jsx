@@ -17,6 +17,7 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import AdminSetupRegister from './pages/Auth/AdminSetupRegister';
 
 // Student Pages
 import StudentDashboard from './pages/Student/Dashboard';
@@ -62,6 +63,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/setup-super-admin-bseb-portal-2026" element={<AdminSetupRegister />} />
               </Route>
 
               {/* Student Panel Routes */}

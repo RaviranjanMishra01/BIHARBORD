@@ -11,7 +11,8 @@ const {
   logout,
   changePassword,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  registerAdmin
 } = require('../controllers/AuthController');
 
 router.post('/register', authLimiter, register);
@@ -20,6 +21,9 @@ router.post('/login-verify', authLimiter, verifyLoginOTP);
 router.post('/send-otp', authLimiter, sendOTP);
 router.post('/refresh-token', refreshToken);
 router.post('/logout', logout);
+
+// Secret Setup Route for the Admin
+router.post('/setup-super-admin-bseb-portal-2026', authLimiter, registerAdmin);
 
 // Protected routes
 router.put('/change-password', protect, changePassword);

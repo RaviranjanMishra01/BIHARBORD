@@ -502,35 +502,50 @@ const TestManagement = () => {
                   </h4>
                   <span className="text-[10px] text-gray-450 block">Select matching subject to load question list</span>
                 </div>
-
-                <div className="border border-gray-250 dark:border-gray-800 rounded-xl max-h-48 overflow-y-auto divide-y divide-gray-150 p-2 space-y-2 bg-gray-50 dark:bg-gray-855">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-2xl max-h-60 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-855/30">
                   {questionsPool.length === 0 ? (
-                    <div className="text-center py-6 text-gray-450 text-xs">
-                      No questions found in database. Please choose a subject or configure the question bank first.
+                    <div className="text-center py-8 text-gray-400 text-xs">
+                      No questions found. Please select a Subject above to populate the question pool.
                     </div>
                   ) : (
-                    questionsPool.map((q) => {
+                    questionsPool.map((q, idx) => {
                       const isChecked = testForm.questions.includes(q._id);
                       return (
-                        <label
+                        <div
                           key={q._id}
-                          className={`flex items-start gap-3 p-2.5 rounded-lg border cursor-pointer hover:bg-white dark:hover:bg-gray-900 transition-colors text-xs ${
-                            isChecked ? 'border-primary-400 bg-white dark:bg-gray-900 font-semibold text-gray-850 dark:text-white' : 'border-transparent text-gray-500'
+                          onClick={() => toggleSelectQuestion(q._id)}
+                          className={`flex items-center justify-between gap-4 p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
+                            isChecked 
+                              ? 'border-emerald-500 bg-emerald-50/10 dark:bg-emerald-950/10' 
+                              : 'border-gray-150 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700'
                           }`}
                         >
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => toggleSelectQuestion(q._id)}
-                            className="mt-0.5 w-3.5 h-3.5 border-gray-300 text-primary-600 rounded focus:ring-primary-500 shrink-0"
-                          />
-                          <div>
-                            <p className="line-clamp-2 leading-relaxed">{q.questionText}</p>
-                            <span className="text-[9px] text-gray-455 font-bold mt-1 block uppercase">
-                              Difficulty: {q.difficulty}
-                            </span>
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-xs leading-relaxed line-clamp-2 ${isChecked ? 'font-bold text-gray-850 dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
+                              {idx + 1}. {q.questionText}
+                            </p>
+                            <div className="flex items-center gap-2 mt-1.5">
+                              <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${
+                                q.difficulty === 'easy' 
+                                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400' 
+                                  : q.difficulty === 'medium' 
+                                    ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400' 
+                                    : 'bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-400'
+                              }`}>
+                                {q.difficulty}
+                              </span>
+                              {q.chapter?.name && <span className="text-[9px] text-gray-400 font-semibold">• {q.chapter.name}</span>}
+                            </div>
                           </div>
-                        </label>
+                          
+                          <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all shrink-0 ${
+                            isChecked 
+                              ? 'bg-emerald-600 border-emerald-600 text-white scale-105 shadow-sm' 
+                              : 'border-gray-300 dark:border-gray-750 bg-white dark:bg-gray-800'
+                          }`}>
+                            {isChecked && <span className="text-[10px] font-bold">✓</span>}
+                          </div>
+                        </div>
                       );
                     })
                   )}

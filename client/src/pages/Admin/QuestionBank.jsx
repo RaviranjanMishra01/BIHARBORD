@@ -593,41 +593,43 @@ const QuestionBank = () => {
                 />
               </div>
 
-              {/* Options */}
-              <div className="space-y-2.5">
-                <label className="block uppercase tracking-wider text-[10px] text-gray-400">MCQ Choices (Options List)</label>
-                {questionForm.options.map((opt, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-gray-100 border text-center leading-5 text-[10px] font-bold">
-                      {String.fromCharCode(65 + idx)}
-                    </span>
-                    <input
-                      type="text"
-                      required
-                      value={opt}
-                      onChange={(e) => handleOptionChange(idx, e.target.value)}
-                      placeholder={`Option Choice ${String.fromCharCode(65 + idx)}`}
-                      className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-855 border rounded-lg text-xs"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Correct Option */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block mb-1">Correct Choice Key *</label>
-                  <select
-                    name="correctOption"
-                    value={questionForm.correctOption}
-                    onChange={(e) => setQuestionForm({ ...questionForm, correctOption: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-855 border rounded-lg text-xs"
-                  >
-                    <option value={0}>Option A</option>
-                    <option value={1}>Option B</option>
-                    <option value={2}>Option C</option>
-                    <option value={3}>Option D</option>
-                  </select>
+              {/* Options & Correct Answer Selection */}
+              <div className="space-y-3">
+                <label className="block uppercase tracking-wider text-[10px] text-gray-400 font-bold">
+                  MCQ Options (Select the circular letter to mark it as the correct answer) *
+                </label>
+                <div className="space-y-2.5">
+                  {questionForm.options.map((opt, idx) => {
+                    const isCorrect = questionForm.correctOption === idx;
+                    return (
+                      <div key={idx} className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setQuestionForm({ ...questionForm, correctOption: idx })}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all border shrink-0 ${
+                            isCorrect 
+                              ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-500/20 scale-105' 
+                              : 'bg-white dark:bg-gray-850 hover:bg-gray-100 text-gray-400 border-gray-250 dark:border-gray-700 hover:border-gray-400'
+                          }`}
+                          title="Mark as correct answer"
+                        >
+                          {isCorrect ? '✓' : String.fromCharCode(65 + idx)}
+                        </button>
+                        <input
+                          type="text"
+                          required
+                          value={opt}
+                          onChange={(e) => handleOptionChange(idx, e.target.value)}
+                          placeholder={`Enter Option Choice ${String.fromCharCode(65 + idx)}`}
+                          className={`flex-1 px-3.5 py-2.5 border rounded-xl text-xs transition-all focus:outline-none focus:ring-2 ${
+                            isCorrect 
+                              ? 'bg-emerald-50/20 dark:bg-emerald-950/10 border-emerald-350 focus:border-emerald-500 focus:ring-emerald-500/20 font-semibold text-emerald-800 dark:text-emerald-300' 
+                              : 'bg-gray-50 dark:bg-gray-855 border-gray-200 dark:border-gray-800 focus:border-primary-500 focus:ring-primary-500/20'
+                          }`}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

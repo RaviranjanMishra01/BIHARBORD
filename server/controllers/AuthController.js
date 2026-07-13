@@ -48,11 +48,12 @@ const sendOTP = async (req, res, next) => {
         });
       }
 
-      // 2. Daily limits check (10 requests)
-      if (limitRecord.count >= 10) {
+      // 2. Daily limits check (10 requests in production, 100 in development/test)
+      const maxDailyRequests = process.env.NODE_ENV === 'production' ? 10 : 100;
+      if (limitRecord.count >= maxDailyRequests) {
         return res.status(429).json({
           success: false,
-          message: 'Daily limit of 10 OTP requests reached. Please try again tomorrow.'
+          message: `Daily limit of ${maxDailyRequests} OTP requests reached. Please try again tomorrow.`
         });
       }
 
@@ -482,10 +483,11 @@ const forgotPassword = async (req, res, next) => {
         });
       }
 
-      if (limitRecord.count >= 10) {
+      const maxDailyRequests = process.env.NODE_ENV === 'production' ? 10 : 100;
+      if (limitRecord.count >= maxDailyRequests) {
         return res.status(429).json({
           success: false,
-          message: 'Daily limit of 10 OTP requests reached. Please try again tomorrow.'
+          message: `Daily limit of ${maxDailyRequests} OTP requests reached. Please try again tomorrow.`
         });
       }
 

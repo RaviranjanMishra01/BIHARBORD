@@ -294,7 +294,8 @@ const bulkImportJsonQuestions = async (req, res, next) => {
         explanation = '',
         difficulty = 'medium',
         subjectName,
-        chapterName
+        chapterName,
+        imageUrl = ''
       } = q;
 
       if (!questionText || !options || correctOption === undefined || !subjectName || !chapterName) {
@@ -348,7 +349,8 @@ const bulkImportJsonQuestions = async (req, res, next) => {
         explanation: explanation.trim(),
         difficulty: diffVal,
         subject: subjectId,
-        chapter: chapterId
+        chapter: chapterId,
+        imageUrl: imageUrl.trim()
       });
 
       importedCount++;

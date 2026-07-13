@@ -400,79 +400,105 @@ const QuestionBank = () => {
             No questions match search filters.
           </div>
         ) : (
-          <div className="space-y-6 divide-y divide-gray-150 dark:divide-gray-800">
-            {questions.map((q, qIndex) => (
-              <div key={q._id} className="pt-6 first:pt-0 space-y-3">
-                <div className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-wider">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 px-2.5 py-0.5 rounded">
-                      {q.subject?.name}
-                    </span>
-                    <span className="text-gray-450">• {q.chapter?.name}</span>
-                  </div>
-                  <span className={`px-2 py-0.5 rounded font-extrabold ${
-                    q.difficulty === 'easy'
-                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20'
-                      : q.difficulty === 'medium'
-                        ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/20'
-                        : 'bg-rose-50 text-rose-700 dark:bg-rose-950/20'
-                  }`}>
-                    {q.difficulty}
-                  </span>
+          <div className="space-y-8">
+            {Object.entries(
+              questions.reduce((acc, q) => {
+                const subName = q.subject?.name || 'Uncategorized';
+                if (!acc[subName]) acc[subName] = [];
+                acc[subName].push(q);
+                return acc;
+              }, {})
+            ).map(([subjectName, subjectQuestions]) => (
+              <div key={subjectName} className="space-y-4 bg-gray-50/30 dark:bg-gray-855/10 p-4 border border-gray-100 dark:border-gray-800 rounded-2xl">
+                {/* Subject Group Header */}
+                <div className="flex items-center gap-2 border-b border-gray-200 dark:border-gray-800 pb-2 mb-4">
+                  <BookOpen className="w-4.5 h-4.5 text-primary-500" />
+                  <h3 className="font-extrabold text-xs text-gray-850 dark:text-white uppercase tracking-wider">
+                    {subjectName} ({subjectQuestions.length} Questions)
+                  </h3>
                 </div>
 
-                <h3 className="font-bold text-sm text-gray-850 dark:text-white leading-relaxed">
-                  {(page - 1) * limit + qIndex + 1}. {q.questionText}
-                </h3>
-
-                {/* Options list */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  {q.options.map((opt, oIdx) => {
-                    const isCorrect = oIdx === q.correctOption;
-                    return (
-                      <div
-                        key={oIdx}
-                        className={`p-2.5 rounded-lg border flex items-center gap-2.5 ${
-                          isCorrect
-                            ? 'bg-emerald-50 dark:bg-emerald-950/10 border-emerald-300 text-emerald-800 dark:text-emerald-350 font-bold'
-                            : 'bg-gray-50 dark:bg-gray-855 border-gray-150 dark:border-gray-800 text-gray-600 dark:text-gray-450'
-                        }`}
-                      >
-                        <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] ${
-                          isCorrect ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-gray-800 border'
+                <div className="space-y-6 divide-y divide-gray-150 dark:divide-gray-800">
+                  {subjectQuestions.map((q, qIndex) => (
+                    <div key={q._id} className="pt-6 first:pt-0 space-y-3">
+                      <div className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-wider">
+                        <span className="text-gray-400">Chapter: {q.chapter?.name || 'N/A'}</span>
+                        <span className={`px-2 py-0.5 rounded font-extrabold ${
+                          q.difficulty === 'easy'
+                            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20'
+                            : q.difficulty === 'medium'
+                              ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/20'
+                              : 'bg-rose-50 text-rose-700 dark:bg-rose-950/20'
                         }`}>
-                          {String.fromCharCode(65 + oIdx)}
+                          {q.difficulty}
                         </span>
-                        <span>{opt}</span>
                       </div>
-                    );
-                  })}
-                </div>
 
-                {q.explanation && (
-                  <div className="bg-gray-50 dark:bg-gray-855 p-3 rounded-xl text-xs text-gray-500 border border-gray-100 dark:border-gray-800">
-                    <strong>Solution hal:</strong> {q.explanation}
-                  </div>
-                )}
+                      <h4 className="font-bold text-xs text-gray-850 dark:text-white leading-relaxed">
+                        {qIndex + 1}. {q.questionText}
+                      </h4>
 
-                {/* Edit options */}
-                <div className="flex justify-end gap-3 pt-1">
-                  <button
-                    onClick={() => handleOpenEdit(q)}
-                    className="px-3.5 py-1.5 border border-gray-200 dark:border-gray-800 text-xs font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-850"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (window.confirm('Delete this question permanently?')) {
-                        deleteQuestionMutation.mutate(q._id);
-                      }
-                    }}
-                    className="px-3.5 py-1.5 border border-rose-250 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-rose-600 text-xs font-bold rounded-lg"
-                  >
-                    Delete
-                  </button>
+                      {q.imageUrl && (
+                        <div className="my-2 max-w-xs">
+                          <img 
+                            src={q.imageUrl} 
+                            alt="Question Visual Attachment" 
+                            className="max-h-36 rounded-xl object-contain border border-gray-200 dark:border-gray-800" 
+                          />
+                        </div>
+                      )}
+
+                      {/* Options list */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        {q.options.map((opt, oIdx) => {
+                          const isCorrect = oIdx === q.correctOption;
+                          return (
+                            <div
+                              key={oIdx}
+                              className={`p-2.5 rounded-lg border flex items-center gap-2.5 ${
+                                isCorrect
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/10 border-emerald-300 text-emerald-800 dark:text-emerald-350 font-bold'
+                                  : 'bg-gray-50 dark:bg-gray-855 border-gray-150 dark:border-gray-800 text-gray-600 dark:text-gray-450'
+                              }`}
+                            >
+                              <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] ${
+                                isCorrect ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-gray-800 border'
+                              }`}>
+                                {String.fromCharCode(65 + oIdx)}
+                              </span>
+                              <span>{opt}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {q.explanation && (
+                        <div className="bg-gray-50 dark:bg-gray-855 p-3 rounded-xl text-xs text-gray-550 border border-gray-100 dark:border-gray-800">
+                          <strong>Solution Explanation:</strong> {q.explanation}
+                        </div>
+                      )}
+
+                      {/* Action buttons */}
+                      <div className="flex justify-end gap-3 pt-1">
+                        <button
+                          onClick={() => handleOpenEdit(q)}
+                          className="px-3.5 py-1.5 border border-gray-200 dark:border-gray-800 text-xs font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-850"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (window.confirm('Delete this question permanently?')) {
+                              deleteQuestionMutation.mutate(q._id);
+                            }
+                          }}
+                          className="px-3.5 py-1.5 border border-rose-250 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-rose-600 text-xs font-bold rounded-lg"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
